@@ -47,7 +47,7 @@ so your session will be persisted across server restarts.
 ## Deploying to Vercel
 
 1. Create a new project on Vercel and link it to your GitHub project.
-2. Under "Build & Development Settings", change "Output Directory" to `dist/public`.
+2. Under "Build & Development Settings", change "Output Directory" to `dist-server/public`.
 3. Add the following environment variables to your Vercel project:
 Key: `MONGO_SRV`, Value: `<your mongo connection string from .env file>`
 Note: only paste the right hand value after `=` (without `<` and `>`), i.e. `MONGO_SRV=<your mongo connection string>`
