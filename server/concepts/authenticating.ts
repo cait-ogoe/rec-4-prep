@@ -18,9 +18,6 @@ export default class AuthenticatingConcept {
    */
   constructor(collectionName: string) {
     this.users = new DocCollection<UserDoc>(collectionName);
-
-    // Create index on username to make search queries for it performant
-    void this.users.collection.createIndex({ username: 1 });
   }
 
   async create(username: string, password: string) {
@@ -36,27 +33,10 @@ export default class AuthenticatingConcept {
   }
 
   async getUserById(_id: ObjectId) {
-    const user = await this.users.readOne({ _id });
-    if (user === null) {
-      throw new NotFoundError(`User not found!`);
-    }
-    return this.redactPassword(user);
-  }
-
-  async getUserByUsername(username: string) {
-    const user = await this.users.readOne({ username });
-    if (user === null) {
-      throw new NotFoundError(`User not found!`);
-    }
-    return this.redactPassword(user);
-  }
-
-  async idsToUsernames(ids: ObjectId[]) {
-    const users = await this.users.readMany({ _id: { $in: ids } });
-
-    // Store strings in Map because ObjectId comparison by reference is wrong
-    const idToUser = new Map(users.map((user) => [user._id.toString(), user]));
-    return ids.map((id) => idToUser.get(id.toString())?.username ?? "DELETED_USER");
+    // TODO 1: implement this operation
+    //  - use this.users.readOne(..)
+    //  - don't include the password (we've provided a helper function you can use!)
+    throw new Error("Not implemented!");
   }
 
   async getUsers(username?: string) {
@@ -75,22 +55,10 @@ export default class AuthenticatingConcept {
   }
 
   async updateUsername(_id: ObjectId, username: string) {
-    await this.assertUsernameUnique(username);
-    await this.users.partialUpdateOne({ _id }, { username });
-    return { msg: "Username updated successfully!" };
-  }
-
-  async updatePassword(_id: ObjectId, currentPassword: string, newPassword: string) {
-    const user = await this.users.readOne({ _id });
-    if (!user) {
-      throw new NotFoundError("User not found");
-    }
-    if (user.password !== currentPassword) {
-      throw new NotAllowedError("The given current password is wrong!");
-    }
-
-    await this.users.partialUpdateOne({ _id }, { password: newPassword });
-    return { msg: "Password updated successfully!" };
+    // TODO 2: implement this operation
+    //  - use this.users.partialUpdateOne(..)
+    //  - maintain the invariant that usernames are unique (we've provided a helper function!)
+    throw new Error("Not implemented!");
   }
 
   async delete(_id: ObjectId) {

@@ -1,12 +1,6 @@
-# 6.1040 Social Media Starter Backend Code
+# 6.1040 MongoDB recitation prep
 
 ## Getting Started
-
-If you are using VSCode/VSCodium, install the ESLint and Prettier extensions.
-The project is already configured to use ESLint and Prettier,
-but feel free to add your own rules if you want.
-Right now, the code is formatted on save; you can change this in `.vscode/settings.json`
-by disabling `editor.formatOnSave`.
 
 Run `npm install` to install dependencies.
 
@@ -24,6 +18,26 @@ To run the server, you need to create a MongoDB Atlas instance and connect your 
 
 __Congrats!__ You're ready to run locally! Don't hesitate to reach out if you run into issues. 
 
+## Using MongoDB
+
+To understand how to perform different create/read/update/delete (CRUD) operations on your MongoDB database, read `server/framework/doc.ts`, which is a simple wrapper around the native driver. You will use these functions to help you solve the `TODOs` for this prep.
+
+Read MongoDB's documentation on [fundamental CRUD operations](https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/) to see how filters and queries work.
+
+Read [how to filter](https://docs.google.com/document/d/1M7PaJmkaOFcwKB6O04-CcJMf1inMhzCl/edit) in MongoDB.
+
+## Complete TODOs 1, 2, & 3
+
+TODOs 1 and 2 are in `server/concepts/authenticating.ts` and TODO 3 is in `server/routes.ts`.
+
+You should not need to modify any other code.
+
+After completing TODO 1, *get session user* should work in the manual testing client described below.
+
+After TODO 2: *update username*. (Check your understanding: if you create a post, will you still be the author of that post if you change your username?)
+
+And after TODO 3: *delete post*. (Check your work: create a post as one user, then log out and log in as a different user, and see that deleting the post fails.)
+
 ## Running Locally
 
 Run `npm start` to start the server and the testing client.
@@ -37,28 +51,14 @@ use this when testing your code so your small changes get reflected in the serve
 
 There is a testing client under `public` directory.
 Locate to `http://localhost:3000` (or a different port if you changed it) to see the testing client.
-Add more operations to `public/util.ts` to test your server code.
-Make sure to refresh the page after making changes to the client code.
-Add some fancy CSS to make your page look nicer!
 
 Keep in mind that we are using `MongoStore` for session management,
 so your session will be persisted across server restarts.
-
-## Deploying to Vercel
-
-1. Create a new project on Vercel and link it to your GitHub project.
-2. Under "Build & Development Settings", change "Output Directory" to `dist-server/public`.
-3. Add the following environment variables to your Vercel project:
-Key: `MONGO_SRV`, Value: `<your mongo connection string from .env file>`
-Note: only paste the right hand value after `=` (without `<` and `>`), i.e. `MONGO_SRV=<your mongo connection string>`
-4. Deploy!
 
 ## Understanding the Structure
 
 The main entry point to the server is `api/index.ts`.
 This is how the server is started and how the routes are registered.
-We would usually put this file under `server/`,
-but Vercel requires the entry point to be under `api/` directory.
 
 The code for the server is under `server/` directory,
 which includes both concept and RESTful API implementations.
@@ -85,11 +85,3 @@ Server implementation:
 - `server/db.ts` contains the MongoDB setup code. You should not need to edit this file.
 - `server/routes.ts` contains the code for your API routes.
 Try to keep your route definitions as simple as possible.
-- `server/responses.ts` contains the code for formatting your responses and errors
-into a more user-friendly format for the front-end. For example, it would be better
-if your front-end receives `barish is not the author of this post` instead of
-`64e52a1f5ffc7d0d48a0569d is not the author of this post`.
-
-And tests:
-
-- `test` contains Mocha unit tests for the server.
